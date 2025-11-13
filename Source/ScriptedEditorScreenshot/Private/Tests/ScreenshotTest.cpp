@@ -46,7 +46,7 @@ bool FCaptureScreenshotVerifyTests::Update()
 	for (FString& f : Files) {
 		FString FullFile = Path / f;
 		if (!FPaths::FileExists(FullFile)) {
-			Test->AddError(TEXT("File not found: ") + FullFile);
+			Test->AddError(TEXT("Screenshot not found: ") + FullFile);
 		}
 		// TODO: Ideally, we can see if the image file makes sense (e. g. by looking at the file size or the contents)
 	}
@@ -60,7 +60,7 @@ bool FCaptureScreenshotVerifyTests::Update()
 bool FScreenshotTest::RunTest(const FString& Parameters)
 {
 	IPluginManager& PluginManager = IPluginManager::Get();
-	FString File = PluginManager.FindPlugin(TEXT("EditorScreenshot"))->GetBaseDir() / TEXT("Source/EditorScreenshot/Private/Tests") / TEXT("TestDescription.ini");
+	FString File = PluginManager.FindPlugin(TEXT("ScriptedEditorScreenshot"))->GetBaseDir() / TEXT("Source/ScriptedEditorScreenshot/Private/Tests") / TEXT("TestDescription.ini");
 	File = FPaths::ConvertRelativePathToFull(File);
 
 	if (!FPaths::FileExists(File)) {
@@ -72,7 +72,7 @@ bool FScreenshotTest::RunTest(const FString& Parameters)
 
 	TSharedPtr<FScreenshotter> Screenshotter = FModuleManager::LoadModuleChecked<FScriptedEditorScreenshotModule>("ScriptedEditorScreenshot").GetScreenshotter();
 
-	ADD_LATENT_AUTOMATION_COMMAND(FExecStringLatentCommand(TEXT("EditorScreenshot.Capture ") + File));
+	ADD_LATENT_AUTOMATION_COMMAND(FExecStringLatentCommand(TEXT("ScriptedEditorScreenshot.CaptureFile ") + File));
 	ADD_LATENT_AUTOMATION_COMMAND(FWaitForCaptureDone(this, Screenshotter));
 	ADD_LATENT_AUTOMATION_COMMAND(FEngineWaitLatentCommand(2.));
 	ADD_LATENT_AUTOMATION_COMMAND(FCaptureScreenshotVerifyTests(File, this));

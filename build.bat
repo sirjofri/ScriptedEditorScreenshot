@@ -6,7 +6,7 @@ echo ZIP file encryption key: %secret%
 setlocal
 
 set project=ScriptedEditorScreenshot
-set version=(5.4 5.5 5.6)
+set version=(5.4 5.5 5.6 5.7)
 
 md BuildResults 2>NUL
 md %temp%\%project% 2>NUL
