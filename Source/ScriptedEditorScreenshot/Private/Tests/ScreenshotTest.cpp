@@ -26,7 +26,7 @@ bool FWaitForCaptureDone::Update()
 	
 	if (Screenshotter->CaptureInProgress())
 		return false;
-	FPlatformProcess::Sleep(0.1);
+	FPlatformProcess::Sleep(0.1f);
 	return false;
 }
 
